@@ -1,0 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+*{
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
+}
+
+.App {
+  text-align: center;
+  font-family: 'Raleway', sans-serif;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+a{
+  text-decoration: none;
+  color: rgb(55, 6, 87);
+  transition: 0.3s;
+}
+a:hover{
+  color: rgb(205, 164, 232);
+}
+li{
+  list-style-type: none;
+}
