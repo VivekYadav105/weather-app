@@ -7,11 +7,13 @@ import sunriseIcon from "../../icons/sun-rise.svg";
 import sunsetIcon from "../../icons/sun-set.svg";
 import "./weather.css";
 import { RingLoader } from "react-spinners";
-import { LocationContext } from "../../App";
+// import { LocationContext } from "../../App";
 
 export default function Weather() {
   const cityRef = useRef(null);
-  const {city,units,setCity,setUnits} = useContext(LocationContext)
+  const [city, setCity] = useState(null);
+  const [units, setUnits] = useState("standard");
+  // const {city,units,setCity,setUnits} = useContext(LocationContext)
   const [data, setData] = useState(null);
 
   const handleSubmit = (e) => {

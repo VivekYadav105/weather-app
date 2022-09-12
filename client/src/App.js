@@ -1,36 +1,29 @@
 import './App.css';
 import {Header,Footer} from './components/partials'
-import {WeatherLive,WeatherHourly} from './components/weather'
+import {WeatherLive} from './components/weather'
+import { LocationContext } from './context';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-
-
-const LocationContext = React.createContext({})
+import React,{useState} from 'react';
 
 function App() {
-  const [city, setCity] = useState(null);
-  const [units, setUnits] = useState("standard");
-  const ProviderValue = {
-    city,units,setCity,setUnits
-  }
+  // const [city, setCity] = useState(null);
+  // const [units, setUnits] = useState("standard");
+  // const ProviderValue = {
+    // city,units,setCity,setUnits
+  // }
   return (
     <div className="App">
       <BrowserRouter>
-      <Header></Header>
-      <Routes>
-        <LocationContext.Provider value={ProviderValue}>
-        <Route path='/' element={<WeatherLive/>}/>
-        <Route path='/week' element={<WeatherWeek/>}/>
-        <Route path='/saved' element={<SavedPlaces/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/signup' element={<Signup/>}/>
-        <Route path='/verify' element={<Verify/>}/>
-        <Route path='/map' element={<Map/>}></Route>
-        </LocationContext.Provider>
-      </Routes>
+        {/* <LocationContext.Provider value={ProviderValue}> */}
+        <Header></Header>
+        <Routes>
+          <Route path='/' exact element={<WeatherLive/>}/>
+        </Routes>
       <Footer></Footer>
+        {/* </LocationContext.Provider> */}
       </BrowserRouter>
     </div>
   );
 }
-export {LocationContext}
+
 export default App;

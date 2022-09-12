@@ -1,8 +1,7 @@
-import { useState } from "react";
+import React,{useState} from 'react';
 
 const Header = () => {
   const [expand, setExpand] = useState(false);
-
   return (
     <header>
       <nav>
@@ -27,7 +26,6 @@ const Header = () => {
                 </a>
               </li>
             </ul>
-          
         </div>
       </nav>
     </header>
