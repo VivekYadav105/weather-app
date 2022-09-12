@@ -1,5 +1,5 @@
 import React, { useCallback,useContext, useEffect, useRef, useState } from "react";
-import { toast, ToastContainer } from "react-toastify";
+// import { toast, ToastContainer } from "react-toastify";
 import searchIcon from "../../icons/search.svg";
 import farienheiticon from "../../icons/fahrenheit.svg";
 import celsiusIcon from "../../icons/celsius.png";
@@ -23,12 +23,12 @@ export default function Weather() {
 
   const getUserLocation = () => {
     navigator.geolocation.getCurrentPosition(async (data) => {
-      toast.info("fetching live location", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-      });
+      // toast.info("fetching live location", {
+      //   position: "top-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeOnClick: true,
+      // });
       const { latitude, longitude } = data.coords;
       const APIkey = "3c69e44246ed2a47cfbeb82438bad733";
       const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
@@ -133,12 +133,12 @@ export default function Weather() {
       const res = await fetch(url);
       const resJson = await res.json();
       if (res) {
-        toast.success("data fetched successfully", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: true,
-          closeOnClick: true,
-        });
+        // toast.success("data fetched successfully", {
+        //   position: "top-center",
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        //   closeOnClick: true,
+        // });
       }
       const {
         dt,
@@ -156,12 +156,12 @@ export default function Weather() {
       console.log(rise, set);
       return { dt, rise, set, name, main, id, icon, temp, humidity, wind };
     } catch (err) {
-      toast.error("there is some error please try again!!!", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: true,
-        closeOnClick: true,
-      });
+      // toast.error("there is some error please try again!!!", {
+      //   position: "top-center",
+      //   autoClose: 2000,
+      //   hideProgressBar: true,
+      //   closeOnClick: true,
+      // });
     }
   };
 

@@ -1,7 +1,6 @@
 import './App.css';
 import {Header,Footer} from './components/partials'
 import {WeatherLive} from './components/weather'
-import { LocationContext } from './context';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import React,{useState} from 'react';
 
