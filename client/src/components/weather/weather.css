@@ -117,3 +117,15 @@
 i{
     color: black;
 }
+
+.loader{
+    height: 280px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.loading{
+    font-size: 30px;
+}
