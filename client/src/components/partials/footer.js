@@ -29,9 +29,7 @@ function NavBottom() {
           </Link>
         </li>
         <li
-          className="nav-item"
-          
-        >
+          className="nav-item">
           <Link to="/map">
             <i className="fa-solid fa-map-location-dot" onClick={() => {
             setActive(1);

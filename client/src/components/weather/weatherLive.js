@@ -1,40 +1,39 @@
-import React, { useCallback,useContext, useEffect, useRef, useState } from "react";
-// import { toast, ToastContainer } from "react-toastify";
-import searchIcon from "../../icons/search.svg";
-import farienheiticon from "../../icons/fahrenheit.svg";
-import celsiusIcon from "../../icons/celsius.png";
+import React, { useContext, useEffect, useState } from "react";
 import sunriseIcon from "../../icons/sun-rise.svg";
 import sunsetIcon from "../../icons/sun-set.svg";
+import SearchBar from './searchBar'
 import "./weather.css";
 import { RingLoader } from "react-spinners";
-// import { LocationContext } from "../../App";
+import { LocationContext } from "../../context";
+import { useFetchData,changeBackground } from "../../Hooks";
 
 export default function Weather() {
-  const cityRef = useRef(null);
-  const [city, setCity] = useState(null);
-  const [units, setUnits] = useState("standard");
-  // const {city,units,setCity,setUnits} = useContext(LocationContext)
-  const [data, setData] = useState(null);
+  const APIkey = '3c69e44246ed2a47cfbeb82438bad733'
+  const {city,units,setCity,setUnits} = useContext(LocationContext);
+  const [background,setBackground] = useState("./images/clear-day.jpg")
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=${units}`
+  // const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    setCity(cityRef.current.value);
-  };
-
+  //function to get user city name from co-ordinates
   const getUserLocation = () => {
+    console.log('entered in user location')
     navigator.geolocation.getCurrentPosition(async (data) => {
-      // toast.info("fetching live location", {
-      //   position: "top-center",
-      //   autoClose: 2000,
-      //   hideProgressBar: true,
-      //   closeOnClick: true,
-      // });
+      console.log(data.coords)
       const { latitude, longitude } = data.coords;
       const APIkey = "3c69e44246ed2a47cfbeb82438bad733";
       const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
       const res = await fetch(url);
       const resJson = await res.json();
       const { name } = await resJson[0];
+      if(name){
+        // toast.info("fetching live location", {
+        //   position: "top-center",
+        //   autoClose: 2000,
+        //   hideProgressBar: true,
+        //   closeOnClick: true,
+        // });
+      }
+      console.log(name)
       setCity(name);
     });
   };
@@ -51,45 +50,6 @@ export default function Weather() {
     );
   };
 
-  const changeBackground = (main, date) => {
-    const temp = new Date(date);
-    switch (main) {
-      case "Thunderstorm":
-        return temp.dayStatus() == "night"
-          ? "./images/thunderstorm-night.jpg"
-          : "./images/thunderstorm-day.jpg";
-      case "Drizzle":
-        return temp.dayStatus() == "night"
-          ? "./images/drizzle-night.jpg"
-          : "./images/drizzle-day.jpg";
-      case "Rain":
-        return temp.dayStatus() == "night"
-          ? "./images/rain-night.jpg"
-          : "./images/rain-day.jpg";
-      case "Snow":
-        return temp.dayStatus() == "night"
-          ? "./images/snow-night.jpg"
-          : "./images/snow-day.jpg";
-      case "Clear":
-        return temp.dayStatus() == "night"
-          ? "./images/clear-night.jpg"
-          : "./images/clear-day.jpg";
-      case "Clouds":
-        return temp.dayStatus() == "night"
-          ? "./images/clouds-night.jpg"
-          : "./images/clouds-day.jpg";
-      case "Ash":
-        return temp.dayStatus() == "night"
-          ? "./images/volcano-night.jpg"
-          : "./images/volcano-day.jpg";
-        case "Haze":
-          return temp.dayStatus() == "night"
-            ? "./images/haze-day.jfif"
-             : "./images/haze-day.jfif";
-    }
-  };
-
-  //custom date declarations
   Date.prototype.createTime = function () {
     if (this.getHours() < 12) {
       this.status = "AM";
@@ -105,7 +65,7 @@ export default function Weather() {
   };
 
   Date.prototype.dayStatus = function () {
-    if (this.getHours() < 12) return "day";
+    if (this.getHours() <= 12) return "day";
     else return "night";
   };
 
@@ -128,18 +88,8 @@ export default function Weather() {
     }
   };
 
-  const fetchHelper = async (url, APIkey) => {
+  const fetchHelper = (data) => {
     try {
-      const res = await fetch(url);
-      const resJson = await res.json();
-      if (res) {
-        // toast.success("data fetched successfully", {
-        //   position: "top-center",
-        //   autoClose: 2000,
-        //   hideProgressBar: true,
-        //   closeOnClick: true,
-        // });
-      }
       const {
         dt,
         sys: { sunrise, sunset },
@@ -147,7 +97,7 @@ export default function Weather() {
         name,
         weather: [{ main, icon, id }],
         main: { temp, humidity },
-      } = resJson;
+      } = data;
       const riseTemp = new Date(sunrise);
       const rise = riseTemp.createTime()
       const setTemp = new Date(sunrise);
@@ -162,85 +112,50 @@ export default function Weather() {
       //   hideProgressBar: true,
       //   closeOnClick: true,
       // });
+      console.log('error in fetch helper in live component:',err.message)
+      return  ' '
     }
   };
 
-  const fetchData = async () => {
-    const APIkey = "3c69e44246ed2a47cfbeb82438bad733";
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=${units}`;
-    try {
-      const k = await fetchHelper(url, APIkey);
-      console.log(k);
-      setTimeout(() => {
-        setData(k);
-      }, 1000);
-    } catch (err) {}
-  };
+  const {res,setRes} = useFetchData(url,fetchHelper,null,[city,units]);
 
-  useEffect(() => {
-    // if(city) {localStorage.setItem("city",city); localStorage.setItem("units",units);}
-    fetchData();
-  }, [city, units]);
+  useEffect(()=>{
+    setBackground(changeBackground(res?res.main:null,res?res.dt:null))
+    console.log(res)
+  },[res])
+
 
   useEffect(() => {
     if(!city) getUserLocation();
   },[]);
 
+
   return (
     <div
       className="weather-app-wrapper"
       style={{
-        backgroundImage: `url(${
-          data ? changeBackground(data.main, data.dt) : "./images/clear-day.jpg"
-        })`,
+        backgroundImage: `url(
+          ${background}
+          )`,
       }}
     >
-      <form onSubmit={handleSubmit}>
-        <div className="search-bar-wrapper">
-          <input id="search-bar" type={"text"} ref={cityRef} required />
-          <img
-            src={searchIcon}
-            alt="search"
-            id="search-icon"
-            onClick={handleSubmit}
-          />
-          <img
-            src={farienheiticon}
-            alt="search"
-            className={`temp-icon ${units == "metric" ? `inactive` : ``}`}
-            id="temp-icon-farienheit"
-            onClick={() => {
-              setUnits("metric");
-            }}
-          />
-          <img
-            src={celsiusIcon}
-            alt="search"
-            className={`temp-icon ${units != "metric" ? `inactive` : ``}`}
-            id="temp-icon-celsius"
-            onClick={() => {
-              setUnits("standard");
-            }}
-          />
-        </div>
-      </form>
-      {data ? (
-        <div className="weather-app">
+      <SearchBar></SearchBar>
+      {res? (<div className="weather-app">
           <div className="weather-app-info">
             <h1 className="city">
               <i className="fa-solid fa-location-dot"></i>&nbsp;&nbsp;
-              {data ? data.name : "city"}
+              {res ? res.name : "city"}
             </h1>
             <h3 className="time-details">
               <i className="fas fa-calendar-alt">&nbsp;&nbsp;</i>
-              {data ? Date(data.dt) : "date"}
+              {res ? Date(res.dt) : "date"}
             </h3>
             <div className="weather-app-info-wrapper">
               <div className="weather-app-info-status">
                 <h3 className="temp">
-                  {data ? (
+                  {res ? (
                     <span>
-                      {data.temp}{" "}
+                      {res.temp}{" "}
                       <span style={{ fontSize: "35px" }}>
                         {units == "metric" ? ` ℃` : ` ℉`}
                       </span>
@@ -250,15 +165,15 @@ export default function Weather() {
                   )}
                 </h3>
                 <span className="status">
-                  {data ? (
-                    data.main
+                  {res ? (
+                    res.main
                   ) : (
                     <i
                       className="fa-solid fa-cloud"
                       style={{ color: "#2f2e3f" }}
                     ></i>
                   )}
-                  {data && setIcon(data.icon, data.dt)}
+                  {res && setIcon(res.icon, res.dt)}
                 </span>
               </div>
               <div className="weather-app-info-status" id="climate-status">
@@ -268,7 +183,7 @@ export default function Weather() {
                     style={{ color: "rgb(116,194,168)" }}
                   ></i>
                   &nbsp;&nbsp;Wind :&nbsp;
-                  <span>{data ? data.wind.speed : " -- "}</span>
+                  <span>{res ? res.wind.speed : " -- "}</span>
                 </h4>
                 <h4 className="humidity">
                   <i
@@ -276,7 +191,7 @@ export default function Weather() {
                     style={{ color: "rgb(65,167,190)" }}
                   ></i>
                   &nbsp;&nbsp;Humidity :&nbsp;
-                  <span>{data ? data.humidity : " -- "}</span>
+                  <span>{res ? res.humidity : " -- "}</span>
                 </h4>
                 <h4 className="temp-2">
                   <i
@@ -285,7 +200,7 @@ export default function Weather() {
                   ></i>
                   &nbsp;&nbsp;Temp :
                   <span>
-                    {data ? data.temp : " -- "}&nbsp;&nbsp;
+                    {res ? res.temp : " -- "}&nbsp;&nbsp;
                     {units == "metric" ? `℃` : `℉`}
                   </span>
                 </h4>
@@ -293,21 +208,22 @@ export default function Weather() {
               <div className="weather-app-info-status" id="sun-status">
                 <h4 className="rise">
                   <img className="icon" src={sunriseIcon} color="D7B51B" />
-                  &nbsp;Rise : <span>{data ? data.rise : "--"}</span>
+                  &nbsp;Rise : <span>{res ? res.rise : "--"}</span>
                 </h4>
                 <h4 className="high">
                   <img className="icon" src={sunsetIcon} />
-                  &nbsp;set : <span>{data ? data.set : "--"}</span>
+                  &nbsp;set : <span>{res ? res.set : "--"}</span>
                 </h4>
               </div>
             </div>
           </div>
-        </div>
-      ):(<div className="loader">
+        </div>)
+        :
+      (<div className="loader">
         <RingLoader></RingLoader>
         <p className="loading">loading...</p>
-      </div>)
-    }
+      </div>
+      )}
     </div>
   );
 }
