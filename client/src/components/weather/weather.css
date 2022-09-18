@@ -5,6 +5,7 @@
     width: 95vw;
     max-width: 500px;
     margin: auto;
+    transform: translateY(25px);
     position: relative;
 }
 #search-bar{
@@ -128,4 +129,13 @@ i{
 
 .loading{
     font-size: 30px;
+}
+
+.days{
+    display: flex;
+    min-height: 100vh;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 2.5rem 0 3rem 0;
 }

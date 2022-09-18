@@ -1,7 +1,6 @@
-import React,{useState} from 'react';
+import React from 'react';
 
 const Header = () => {
-  const [expand, setExpand] = useState(false);
   return (
     <header>
       <nav>
@@ -21,7 +20,7 @@ const Header = () => {
            */}
             <ul className="nav-list">
               <li className="nav-item nav-button">
-                <a href="" className="nav-link">
+                <a href="/" className="nav-link">
                   Login
                 </a>
               </li>
