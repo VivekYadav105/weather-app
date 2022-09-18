@@ -1,4 +1,4 @@
-import { useState,useEffect,useCallback } from "react";
+import { useState,useEffect } from "react";
 // import useBackground from "./backgroundHook";
 
 function useFetchData(url,func,initialState,dependencies){

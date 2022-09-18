@@ -1,5 +1,6 @@
 import WeatherLive from './weatherLive'
-// import WeatherHourly from './weatherHourly'
+// import MapComponent from './map'
+import WeatherDay from './weatherDay'
 // import WeatherWeekly from './weatherWeekly'
-
-export {WeatherLive}
+export {WeatherLive,WeatherDay}
+// export {WeatherLive,MapComponent}

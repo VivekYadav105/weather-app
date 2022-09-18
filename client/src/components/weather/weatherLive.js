@@ -9,7 +9,7 @@ import { useFetchData,changeBackground } from "../../Hooks";
 
 export default function Weather() {
   const APIkey = '3c69e44246ed2a47cfbeb82438bad733'
-  const {city,units,setCity,setUnits} = useContext(LocationContext);
+  const {city,units,setCity} = useContext(LocationContext);
   const [background,setBackground] = useState("./images/clear-day.jpg")
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=${units}`
   // const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
@@ -40,13 +40,14 @@ export default function Weather() {
 
   const setIcon = (icon, date) => {
     const tempDate = new Date(date);
-    return tempDate.dayStatus() == "day" ? (
+    return tempDate.dayStatus() === "day" ? (
       <img
         src={`http://openweathermap.org/img/wn/${icon}@2x.png`}
         style={{ width: "50px", height: "50px" }}
+        alt=""
       />
     ) : (
-      <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} />
+      <img src={`http://openweathermap.org/img/wn/${icon}@2x.png`} alt="" />
     );
   };
 
@@ -85,6 +86,8 @@ export default function Weather() {
         return "Friday";
       case 6:
         return "Saturday";
+      default:
+        return "unknown"
     }
   };
 
@@ -100,9 +103,8 @@ export default function Weather() {
       } = data;
       const riseTemp = new Date(sunrise);
       const rise = riseTemp.createTime()
-      const setTemp = new Date(sunrise);
+      const setTemp = new Date(sunset);
       const set = setTemp.createTime();
-      console.log(sunrise, sunset);
       console.log(rise, set);
       return { dt, rise, set, name, main, id, icon, temp, humidity, wind };
     } catch (err) {
@@ -117,7 +119,7 @@ export default function Weather() {
     }
   };
 
-  const {res,setRes} = useFetchData(url,fetchHelper,null,[city,units]);
+  const {res} = useFetchData(url,fetchHelper,null,[city,units]);
 
   useEffect(()=>{
     setBackground(changeBackground(res?res.main:null,res?res.dt:null))
@@ -157,7 +159,7 @@ export default function Weather() {
                     <span>
                       {res.temp}{" "}
                       <span style={{ fontSize: "35px" }}>
-                        {units == "metric" ? ` ℃` : ` ℉`}
+                        {units === "metric" ? ` ℃` : ` ℉`}
                       </span>
                     </span>
                   ) : (
@@ -201,17 +203,17 @@ export default function Weather() {
                   &nbsp;&nbsp;Temp :
                   <span>
                     {res ? res.temp : " -- "}&nbsp;&nbsp;
-                    {units == "metric" ? `℃` : `℉`}
+                    {units === "metric" ? `℃` : `℉`}
                   </span>
                 </h4>
               </div>
               <div className="weather-app-info-status" id="sun-status">
                 <h4 className="rise">
-                  <img className="icon" src={sunriseIcon} color="D7B51B" />
+                  <img className="icon" alt="" src={sunriseIcon} color="D7B51B" />
                   &nbsp;Rise : <span>{res ? res.rise : "--"}</span>
                 </h4>
                 <h4 className="high">
-                  <img className="icon" src={sunsetIcon} />
+                  <img className="icon" alt="" src={sunsetIcon} />
                   &nbsp;set : <span>{res ? res.set : "--"}</span>
                 </h4>
               </div>

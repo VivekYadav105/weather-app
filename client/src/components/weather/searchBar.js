@@ -1,5 +1,5 @@
 import {LocationContext} from '../../context'
-import React,{ useRef,useState,useContext } from 'react';
+import React,{ useRef,useContext } from 'react';
 
 import searchIcon from "../../icons/search.svg";
 import farienheiticon from "../../icons/fahrenheit.svg";
@@ -8,8 +8,7 @@ import celsiusIcon from "../../icons/celsius.png";
 export default function SearchBar(props){
     const cityRef = useRef(null);
 
-    const {city,units,setCity,setUnits} = useContext(LocationContext)
-    const [data, setData] = useState(null);
+    const {units,setCity,setUnits} = useContext(LocationContext)
     const handleSubmit = (e) => {
         e.preventDefault();
         setCity(cityRef.current.value);
@@ -36,7 +35,7 @@ export default function SearchBar(props){
           <img
             src={celsiusIcon}
             alt="search"
-            className={`temp-icon ${units != "metric" ? `inactive` : ``}`}
+            className={`temp-icon ${units !== "metric" ? `inactive` : ``}`}
             id="temp-icon-celsius"
             onClick={() => {
               setUnits("standard");
