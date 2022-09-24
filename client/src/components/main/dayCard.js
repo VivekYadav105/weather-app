@@ -15,7 +15,7 @@ function DayCard({day}){
                 k="https://images.pexels.com/photos/6858659/pexels-photo-6858659.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
             break;
             case "Rain":
-                k="https://images.unsplash.com/photo-1630574232726-fc3ea90637b8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8ZHJpenpsZSUyMHJhaW58ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60" ;                 
+                k="https://img.freepik.com/premium-photo/rain-water-drop-falling-city-street-floor-heavy-rain-day_1962-2005.jpg?w=2000" ;                 
             break;
             case "Snow":
                 k = "https://images.pexels.com/photos/1366919/pexels-photo-1366919.jpeg?cs=srgb&dl=pexels-eberhard-grossgasteiger-1366919.jpg&fm=jpg";
