@@ -10,7 +10,7 @@ import { useFetchData,changeBackground } from "../../Hooks";
 export default function Weather() {
   const APIkey = '3c69e44246ed2a47cfbeb82438bad733'
   const {city,units,setCity} = useContext(LocationContext);
-  const [background,setBackground] = useState("./images/clear-day.jpg")
+  const [background,setBackground] = useState("images/clear-day.jpg")
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=${units}`
   // const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
 

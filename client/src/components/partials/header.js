@@ -1,6 +1,9 @@
 import React from 'react';
+import { UserContext } from '../../context';
+
 
 const Header = () => {
+  const {user,setUser} = React.useContext(UserContext)
   return (
     <header>
       <nav>
@@ -10,21 +13,12 @@ const Header = () => {
         <div className="logo-text-wrapper">
           <h1>Weather App</h1>
         </div>
-        <div className="nav-list-wrapper">
-          {/* <i
-            className="fa-solid fa-bars"
-            onClick={() => {
-              setExpand(prev=>!prev);
-            }}
-          ></i>
-           */}
-            <ul className="nav-list">
-              <li className="nav-item nav-button">
-                <a href="/" className="nav-link">
-                  Login
-                </a>
-              </li>
-            </ul>
+        <div>
+        {
+        user?
+        <button className='nav-button' onClick={()=>{setUser(false)}}>Logout</button>: 
+        <button className='nav-button' onClick={()=>{window.location.href="/auth"}}>Login</button>
+      }
         </div>
       </nav>
     </header>

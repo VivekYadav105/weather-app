@@ -17,7 +17,7 @@ function WeatherHourly(props){
     useEffect(()=>{setUnits('metric')},[])
 
     function getCoordinates(){
-        const url = `http://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
+        const url = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`
         fetch(url,{mode:'cors'})
         .then((response)=>{
             return response.json()

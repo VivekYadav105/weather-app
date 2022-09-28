@@ -10,46 +10,46 @@ export default function changeBackground(main, date) {
         switch (main) {
           case "Thunderstorm":
                 k = temp.dayStatus() === "night"
-                ? "./images/thunderstorm-night.jpg"
-                : "./images/thunderstorm-day.jpg";
+                ? "images/thunderstorm-night.jpg"
+                : "images/thunderstorm-day.jpg";
             break;
           case "Drizzle":
                 k = temp.dayStatus() === "night"
-                ? "./images/drizzle-night.jpg"
-                : "./images/drizzle-day.jpg";
+                ? "images/drizzle-night.jpg"
+                : "images/drizzle-day.jpg";
           break;
           case "Rain":
                 k = temp.dayStatus() === "night"
-                ? "./images/rain-night.jpg"
-                : "./images/rain-day.jpg";
+                ? "images/rain-night.jpg"
+                : "images/rain-day.jpg";
           break;
           case "Snow":
                 k = temp.dayStatus() === "night"
-                ? "./images/snow-night.jpg"
-                : "./images/snow-day.jpg";
+                ? "images/snow-night.jpg"
+                : "images/snow-day.jpg";
           break;
           case "Clear":
                 k = temp.dayStatus() === "night"
-                ? "./images/clear-night.jpg"
-                : "./images/clear-day.jpg";
+                ? "images/clear-night.jpg"
+                : "images/clear-day.jpg";
           break;
           case "Clouds":
                 k = temp.dayStatus() === "night"
-                ? "./images/clouds-night.jpg"
-                : "./images/clouds-day.jpg";
+                ? "images/clouds-night.jpg"
+                : "images/clouds-day.jpg";
           break;
           case "Ash":
                 k = temp.dayStatus() === "night"
-                ? "./images/volcano-night.jpg"
-                : "./images/volcano-day.jpg";
+                ? "images/volcano-night.jpg"
+                : "images/volcano-day.jpg";
           break;
           case "Haze":
                 k = temp.dayStatus() === "night"
-                ? "./images/haze-day.jfif"
-                : "./images/haze-day.jfif";
+                ? "images/haze-day.jfif"
+                : "images/haze-day.jfif";
           break;
           default:
-                k = "./images/clear-day.jpg"
+                k = "images/clear-day.jpg"
         }
         // setBackground(k)
         // return {background,setBackground}
