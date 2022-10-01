@@ -1,0 +1,22 @@
+.input-bar{
+    padding: .5rem 1.5rem;       
+    font-size: 20px;
+    border-radius: 10px;
+    border:2px solid rgba(221, 115, 39, 0.571);
+}
+.input-box{
+    position: relative;
+    padding-top: 2rem;
+}
+
+label{
+    position: absolute;
+    top:2.75rem;
+    transition: 0.5s;
+    left: 1rem;
+    pointer-events: none;
+}
+.input-bar:focus+label,.input-bar:active+label,.input-bar:not(:placeholder-shown)+label,.input-bar:not(:empty)+label{
+    top:7.5px;
+    color: white;
+}

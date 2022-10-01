@@ -12,7 +12,6 @@ function useFetchData(url,func,initialState,dependencies){
             const resJson = await response.json()
             if(response.status===200){
                 const tempData = func(resJson);
-                console.log('outside fetch data day9')
                 setRes(tempData);
             }
             else{
@@ -24,10 +23,6 @@ function useFetchData(url,func,initialState,dependencies){
         }
         return {res,setRes}
     }
-
-    useEffect(()=>{
-        console.log(res)
-    },[res])
 
     useEffect(()=>{
         fetchData()

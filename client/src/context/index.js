@@ -1,3 +1,3 @@
 import LocationContext from "./locationContext";
-
-export {LocationContext}
+import UserContext from './userContext'
+export {LocationContext,UserContext}

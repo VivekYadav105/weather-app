@@ -1,4 +1,5 @@
 import React, { useEffect,useState,useContext } from 'react';
+import { RingLoader } from 'react-spinners';
 import { LocationContext } from '../../context';
 import { changeBackground,useFetchData } from '../../Hooks';
 import DayCard from '../main/dayCard';
@@ -22,7 +23,9 @@ function WeatherHourly(props){
             return response.json()
         })
         .then((data)=>{
-            setCords((i)=>({...i,lat:data[0].lat,lon:data[0].lon}))
+            console.log(data)
+            if(data) setCords((i)=>({...i,lat:data[0].lat,lon:data[0].lon}))
+            else alert('enter a correct city')
         })
     }
 
@@ -34,8 +37,6 @@ function WeatherHourly(props){
         const data = res.daily
         const dailyData = [] 
         data.forEach(element => {
-            console.log("inside loop")
-            console.log(element)
             const {
                 dt,sunrise, sunset,
                 moonrise,moonset,
@@ -51,7 +52,6 @@ function WeatherHourly(props){
               const set = setTemp.toDateString()
               dailyData.push({ dt,rise,set,moonrise,moonset,wind_gust,main,icon,id,temp,humidity,temp,pressure,city});
         }); 
-        console.log(dailyData);
         return dailyData;
     }
 
@@ -59,16 +59,12 @@ function WeatherHourly(props){
 
     useEffect(()=>{
         setBackground(changeBackground(res?res.main:null,res?res.dt:null))
-        console.log(res)
     },[res])
 
     useEffect(()=>{
         getCoordinates();
     },[city,units])
 
-    useEffect(()=>{
-        console.log(cords)
-    },[cords])
     return(
         <section className='weather' 
         style={{
@@ -78,7 +74,12 @@ function WeatherHourly(props){
           }}>  
         <SearchBar></SearchBar>  
         <div className='days'>
-        {res&&res.map((day,index)=>(<DayCard day={day} key={index}></DayCard>))}
+        {res?res.map((day,index)=>(<DayCard day={day} key={index}></DayCard>))
+        :(
+        <div className="loader">
+            <RingLoader></RingLoader>
+            <p className="loading">loading...</p>
+        </div>)}
         </div>
         </section>
     )

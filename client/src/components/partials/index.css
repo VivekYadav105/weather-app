@@ -10,6 +10,7 @@ nav{
     justify-content: space-around;
     padding:.5rem 3rem;
     align-items: center;
+    gap: 1.5rem;
 }
 
 .logo{
@@ -30,7 +31,6 @@ nav{
 }
 #nav-list-bottom{
     display: flex;
-
 }
 .circle{
     border-radius: 50%;
@@ -46,10 +46,12 @@ nav{
     left: 20px;
 }
 .nav-button{
-    padding:.5rem;
-    border-radius: 2rem;
+    padding:.5rem 1rem;
+    border-radius: 1rem;
     border: 2px solid rgb(14, 42, 82);
-    color: white;
+    color: rgb(14, 42, 82);
+    font-size: medium;
+    font-weight: 500;
     border: 2px solid black;
 }
 .nav-item a{
@@ -60,13 +62,10 @@ nav{
 
 
 .logo-text-wrapper{
-    width: 50%;
     color: rgb(14, 42, 82);
 }
 .logo-text-wrapper h1{
     color: inherit;
-    transform: translateX(100px);
-    transition: 0.3s;
     display: inline-block;
 }
 
@@ -88,11 +87,6 @@ nav{
     color: white;
 }
 
-@media screen and (max-width:992px) {
-    .logo-text-wrapper h1{
-        transform: translateX(50px);
-    }
-}
 
 @media screen and (max-width:768px) {
     .nav-list-wrapper{

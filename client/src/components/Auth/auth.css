@@ -1,0 +1,75 @@
+.auth-wrapper{
+    height: 90vh;
+    background-image: url("/public/images/thunderstorm-night.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.login-wrapper,.signup-wrapper{
+    transition: 0.75s;
+}
+.auth-box{
+    display: flex;
+    width: 360px;
+    gap: 11px;
+    align-items: center;
+    overflow: hidden;
+}
+
+.auth-header{
+    display: flex;
+    padding: 1rem;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 1rem 1rem 0 0;
+    align-items: center;
+    width: 350px;
+    justify-content: center;
+    gap: 1rem;
+    background-color: rgba(118, 139, 181, 0.607);
+}
+
+.login,.signup{
+    background-color: rgba(166, 160, 160, 0.69);
+    padding: 5.5rem 1rem  1rem 1.5rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 350px;
+    border-radius: 1rem;
+}
+
+.auth-heading{
+    color: white;
+    margin-top: 1rem;
+}
+
+.buttons{
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-around;
+    gap: 1rem;
+}
+.auth-button{
+    padding:1rem .5rem;
+    border-radius: 15px;
+    border: 2px solid rgb(14, 42, 82);
+    color: rgb(14, 42, 82);
+    flex: 1;
+    font-family: inherit;
+    font-size: 18px;
+    background-color: transparent;
+    font-weight:bold;
+    transition: 0.5s;
+}
+.auth-button:hover{
+    background-color: rgb(14, 42, 82);
+    color: white;
+    border: 2px solid transparent;
+}
+
