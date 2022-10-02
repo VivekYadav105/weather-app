@@ -56,7 +56,7 @@ function Login(props){
                         pauseOnFocusLoss:false})
             }
             else{
-                toast.info("something went wrong try again",{
+                toast.info(data.message,{
                     position:'top-center',
                     autoClose:true,
                     closeOnClick:true,

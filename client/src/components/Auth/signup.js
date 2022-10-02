@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useState } from 'react'
 function Signup(props){
     const {page,setPage} = props
-    const [signUpData,setSignUpData] = useState({username:null,password:null,homeLocation:null})
+    const [signUpData,setSignUpData] = useState({username:null,password:null,location:null})
 
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
@@ -29,7 +29,7 @@ function Signup(props){
             return
         }
         if(email&&password){
-            setSignUpData((i)=>({...i,username:emailRef.current.value,password:passwordRef.current.value,homeLocation:homeLocationRef.current.value}))
+            setSignUpData((i)=>({...i,username:emailRef.current.value,password:passwordRef.current.value,location:homeLocationRef.current.value}))
         }
     }
 
@@ -39,7 +39,7 @@ function Signup(props){
         if(response.data.status==200||response.data.status==201||response.data.status==202){
             toast.success("User created successfully",{position:"top-center",autoClose:4000,hideProgressBar:false,pauseOnFocusLoss:false})
             setTimeout(()=>{
-                <Navigate to="/verify"></Navigate>
+                <Navigate to="/"></Navigate>
             },1000)
         }
         else{
@@ -48,7 +48,7 @@ function Signup(props){
     }
 
     useEffect(()=>{
-        signUpData&&postSignUpData()
+        signUpData.username&&postSignUpData()
     },[signUpData])
 
     return(
@@ -65,7 +65,7 @@ function Signup(props){
                 <InputBar label={{name:"email"}} input={{id:'email',type:'email',placeholder:" ",ref:emailRef,required:true}}/>
                 <InputBar label={{name:"password"}} input={{id:'password',type:'password',placeholder:" ",minLength:6,ref:passwordRef,required:true}}/>
                 <InputBar label={{name:"confirm-password"}} input={{id:'confirm-password',type:'password',placeholder:" ",minLength:6,ref:confirmPasswordRef,required:true}}/>
-                <InputBar label={{name:"confirm-password"}} input={{id:'home-location',placeholder:" ",ref:homeLocationRef,}}/>
+                <InputBar label={{name:"home-location"}} input={{id:'home-location',placeholder:" ",ref:homeLocationRef}}/>
                 <div className='buttons'>
                     <button className='auth-button'>Signup</button>
                     <button className='auth-button' type='button' onClick={()=>{props.setPage(0)}}>Login</button>

@@ -77,7 +77,13 @@ async function verifyUser(req,res,next){
 }
 
 async function forgotPassword(req,res,next){
-    res.send('route not done')
+    const {username} = req.body;
+        const user = await userModel.findOne({username:username})
+        if(!user){res.json({success:false,status:404,token:false,message:"user with given mail doesn't exist"}).status(404)}
+        else{
+            const token = jwt.sign({username:username,password:user.password,homeLocation:user.homeLocation||null},'resetKey123')
+            res.json({success:true,token:token,status:200,message:"please check you mail."}).status(200);
+        }
 }
 
 module.exports = {loginUser,signupUser,verifyUser,forgotPassword}
