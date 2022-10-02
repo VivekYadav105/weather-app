@@ -1,5 +1,5 @@
 .auth-wrapper{
-    height: 90vh;
+    height: 100vh;
     background-image: url("/public/images/thunderstorm-night.jpg");
     background-repeat: no-repeat;
     background-size: cover;
@@ -13,7 +13,7 @@
 .auth-box{
     display: flex;
     width: 360px;
-    gap: 11px;
+    gap: 10px;
     align-items: center;
     overflow: hidden;
 }

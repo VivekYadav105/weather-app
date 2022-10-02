@@ -1,11 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { UserContext } from '../../context';
 
 
 const Header = () => {
   const {user,setUser} = React.useContext(UserContext)
+  const [display,setDisplay] = useState(true)
+
+  const location = useLocation()
+
+  useEffect(()=>{
+    if(location.pathname==='/auth'){setDisplay(false)}
+    else{setDisplay(true)}
+  },[location])
+
   return (
-    <header>
+    <header style={{display:display?"":"none"}}>
       <nav>
         <div className="logo">
           <img src="/images/logo.png" alt="logo" />

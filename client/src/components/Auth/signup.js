@@ -6,17 +6,19 @@ import axios from 'axios'
 import { useState } from 'react'
 function Signup(props){
     const {page,setPage} = props
-    const [signUpData,setSignUpData] = useState({username:'',password:''})
+    const [signUpData,setSignUpData] = useState({username:null,password:null,homeLocation:null})
 
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
     const confirmPasswordRef = useRef(null)
+    const homeLocationRef = useRef(null)
     
     const handleSubmit = (e)=>{
         e.preventDefault();
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
         const confirmPassword = confirmPasswordRef.current.value
+        const homeLocation = homeLocationRef.current.value
         if(password!=confirmPassword){
             toast.error("passwords doesn't match",{
                 position:'top-center',
@@ -27,7 +29,7 @@ function Signup(props){
             return
         }
         if(email&&password){
-            setSignUpData((i)=>({...i,username:emailRef.current.value,password:passwordRef.current.value}))
+            setSignUpData((i)=>({...i,username:emailRef.current.value,password:passwordRef.current.value,homeLocation:homeLocationRef.current.value}))
         }
     }
 
@@ -63,6 +65,7 @@ function Signup(props){
                 <InputBar label={{name:"email"}} input={{id:'email',type:'email',placeholder:" ",ref:emailRef,required:true}}/>
                 <InputBar label={{name:"password"}} input={{id:'password',type:'password',placeholder:" ",minLength:6,ref:passwordRef,required:true}}/>
                 <InputBar label={{name:"confirm-password"}} input={{id:'confirm-password',type:'password',placeholder:" ",minLength:6,ref:confirmPasswordRef,required:true}}/>
+                <InputBar label={{name:"confirm-password"}} input={{id:'home-location',placeholder:" ",ref:homeLocationRef,}}/>
                 <div className='buttons'>
                     <button className='auth-button'>Signup</button>
                     <button className='auth-button' type='button' onClick={()=>{props.setPage(0)}}>Login</button>

@@ -1,7 +1,7 @@
 import './App.css';
 import {Header,Footer} from './components/partials'
 import {WeatherLive,WeatherDay} from './components/weather'
-import { BrowserRouter, Route, Routes,Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes,Navigate, useNavigate, useLocation } from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import {LocationContext,UserContext} from './context'
 import Auth from './components/Auth';
@@ -11,6 +11,7 @@ function App() {
   const [city, setCity] = useState(null);
   const [units, setUnits] = useState("standard");
   const [user,setUser] = useState(false)
+  
   const ProviderValue = {
     city,units,setCity,setUnits
   }
@@ -40,7 +41,7 @@ function App() {
       <UserContext.Provider value={{user,setUser}}>
       <ToastContainer position='top-middle' autoClose={5000} newestOnTop={false} closeOnClick></ToastContainer>
         <LocationContext.Provider value={ProviderValue}>
-        <Header></Header>
+        {window.location.href!=="/auth"&&<Header></Header>}
           <Routes>
             <Route path='/auth' exact element={<Auth/>}/>
             <Route path='/' exact element={<WeatherLive/>}/>

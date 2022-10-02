@@ -9,7 +9,7 @@ import { UserContext } from '../../context'
 function Login(props){
     const {page,setPage} = props
 
-    const [loginData,setLoginData] = useState({username:'',password:''})
+    const [loginData,setLoginData] = useState({username:null,password:null})
     const {user,setUser} = React.useContext(UserContext)
 
     const emailRef = useRef(null)
@@ -81,7 +81,7 @@ function Login(props){
     },[loginData])
 
     return(
-        <div className="login-wrapper" style={{transform:`translateX(-${page*350}px)`}}>  
+        <div className="login-wrapper" style={{transform:`translateX(-${page*355}px)`}}>  
             <form className='login' onSubmit={handleSubmit}>
                 <div className='auth-header'>
                 <div className="logo">

@@ -48,6 +48,7 @@ nav{
 .nav-button{
     padding:.5rem 1rem;
     border-radius: 1rem;
+    cursor: pointer;
     border: 2px solid rgb(14, 42, 82);
     color: rgb(14, 42, 82);
     font-size: medium;

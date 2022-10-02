@@ -24,7 +24,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev-start":"concurrently \"react-scripts start\" \"cd ../server && nodemon index\""
   },
   "eslintConfig": {
     "extends": [

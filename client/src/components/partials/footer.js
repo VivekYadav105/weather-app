@@ -1,12 +1,13 @@
 import React,{useEffect, useState} from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import ReactTooltip from "react-tooltip";
 
 function NavBottom() {
   const [active, setActive] = useState(0);
+  const location = useLocation()
 
   const changeActive = ()=>{
-    switch(window.location.href){
+    switch(location.pathname){
       case "/":
         setActive(0)
         break;
@@ -19,12 +20,15 @@ function NavBottom() {
       case "/fav":
         setActive(3)
         break;
+      case "/auth":
+        setActive(2)
+        break;
     }
   }
 
   useEffect(()=>{
     changeActive()
-  },[])
+  },[location])
 
   return (
     <div className="nav-bottom">
