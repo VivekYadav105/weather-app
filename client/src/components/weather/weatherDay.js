@@ -32,6 +32,11 @@ function WeatherHourly(props){
     
     const url = `https://api.openweathermap.org/data/2.5/onecall?lat=${cords.lat||0}&lon=${cords.lon||0}&exclude=minutely,hourly&appid=${apiKey}&units=${units}`
 
+    Date.prototype.dayStatus = function () {
+        if (this.getHours() < 12) return "AM";
+        else return "PM";
+      };
+
     function fetchHelper(res){
         console.log("inside fetch data day")
         const data = res.daily
@@ -46,10 +51,10 @@ function WeatherHourly(props){
                 temp,
                 pressure
               } = element;
-              const riseTemp = new Date(sunrise);
-              const rise = riseTemp.toDateString()
-              const setTemp = new Date(sunset);
-              const set = setTemp.toDateString()
+              const riseTemp = new Date(sunrise*1000);
+              const rise = `${riseTemp.getHours()}:${riseTemp.getMinutes()} ${riseTemp.dayStatus()}`
+              const setTemp = new Date(sunset*1000);
+              const set = `${setTemp.getHours()}:${setTemp.getMinutes()} ${setTemp.dayStatus()}`
               dailyData.push({ dt,rise,set,moonrise,moonset,wind_gust,main,icon,id,temp,humidity,temp,pressure,city});
         }); 
         return dailyData;

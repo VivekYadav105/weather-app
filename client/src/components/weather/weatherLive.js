@@ -10,7 +10,7 @@ import { useFetchData,changeBackground } from "../../Hooks";
 export default function Weather() {
   const APIkey = '3c69e44246ed2a47cfbeb82438bad733'
   const {city,units,setCity} = useContext(LocationContext);
-  const [background,setBackground] = useState("images/clear-day.jpg")
+  const [background,setBackground] = useState("/images/clear-day.jpg")
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=${units}`
   // const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
 
@@ -65,6 +65,10 @@ export default function Weather() {
     }
   };
 
+  Date.prototype.showTime = function(){
+    return {day:this.getDay(),hours:this.getHours(),minutes:this.getMinutes(),seconds:this.getSeconds(),day:this.getDayName(),date:this.getDate(),month:this.getMonth(),year:this.getFullYear(),status:this.dayStatus()}
+  }
+
   Date.prototype.dayStatus = function () {
     if (this.getHours() <= 12) return "day";
     else return "night";
@@ -101,12 +105,14 @@ export default function Weather() {
         weather: [{ main, icon, id }],
         main: { temp, humidity },
       } = data;
-      const riseTemp = new Date(sunrise);
+      const riseTemp = new Date(sunrise*1000);
       const rise = riseTemp.createTime()
-      const setTemp = new Date(sunset);
+      const setTemp = new Date(sunset*1000);
       const set = setTemp.createTime();
       console.log(rise, set);
-      return { dt, rise, set, name, main, id, icon, temp, humidity, wind };
+      const dateTemp = new Date(dt*1000)
+      const date = dateTemp.showTime()
+      return { date, rise, set, name, main, id, icon, temp, humidity, wind };
     } catch (err) {
       // toast.error("there is some error please try again!!!", {
       //   position: "top-center",
@@ -122,7 +128,7 @@ export default function Weather() {
   const {res} = useFetchData(url,fetchHelper,null,[city,units]);
 
   useEffect(()=>{
-    setBackground(changeBackground(res?res.main:null,res?res.dt:null))
+    setBackground(changeBackground(res?res.main:null,res?res.date.status:null))
     console.log(res)
   },[res])
 
@@ -150,7 +156,7 @@ export default function Weather() {
             </h1>
             <h3 className="time-details">
               <i className="fas fa-calendar-alt">&nbsp;&nbsp;</i>
-              {res ? Date(res.dt) : "date"}
+              {res ?`${res.date.day} ${res.date.date}-${res.date.month}-${res.date.year}` : "date"}
             </h3>
             <div className="weather-app-info-wrapper">
               <div className="weather-app-info-status">

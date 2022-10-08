@@ -45,7 +45,8 @@ function App() {
           <Routes>
             <Route path='/auth' exact element={<Auth/>}/>
             <Route path='/' exact element={<WeatherLive/>}/>
-            <Route path='/day' exact element={user?<WeatherDay/>:<Navigate to="/auth"/>}/>
+            <Route path='/day' exact element={<WeatherDay/>}/>
+            {/* <Route path='/day' exact element={user?<WeatherDay/>:<Navigate to="/auth"/>}/> */}
             {/* <Route path='/map' exact element={<MapComponent/>}/> */}
           </Routes>
         <Footer></Footer>
