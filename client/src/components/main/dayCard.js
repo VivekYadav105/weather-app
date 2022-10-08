@@ -7,6 +7,7 @@ function DayCard({day}){
 
     function changeBackgroundColor(){
         var k,m;
+        console.log(day)
         switch (day.main) {
             case "Thunderstorm":
                 k="https://images.pexels.com/photos/9751579/pexels-photo-9751579.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
@@ -38,6 +39,9 @@ function DayCard({day}){
           return k;
     }
 
+    function settime(){
+
+    }
     
     return(
      <>   <div className="card-wrapper">
@@ -45,13 +49,14 @@ function DayCard({day}){
             <div className="card-top">
                 <div className="day-icon">
                     <img src={`http://openweathermap.org/img/wn/${day.icon}@2x.png`} alt=""/>
+                    <span className="" id='main'>{day.main}</span>
                 </div>
                 <div className="weather-status">
-                    <span className="" id='main'>{day.main}</span>
                     <span className="" id='temp'><span>
                     {day ? Math.round(day.temp['day']) : " -- "}&nbsp;℃
                   </span></span>
                     <span className="" id='city'>{day.city}</span>
+                    <span className="" id='city'>{new Date(day.dt*1000).toDateString()}</span>
                 </div>
             </div>
             <div className="card-middle">
@@ -84,12 +89,11 @@ function DayCard({day}){
             </div>
             <div className="card-bottom">
                 <div className="detail-mini"> 
-                <img className="icon" alt="" src={sunriseIcon} color="D7B51B" />rise:
+                <img className="icon" alt="" src={sunriseIcon} color="D7B51B" />rise&nbsp;<br/>
                 <span className="" id="rise">{day.rise}</span></div>
                 <div className="detail-mini"> 
-                <img className="icon" alt="" src={sunsetIcon} color="D7B51B" />set:
+                <img className="icon" alt="" src={sunsetIcon} color="D7B51B" />set&nbsp;<br/>
                 <span className="" id="set">{day.set}</span></div>
-                <div className="detail-mini"></div>
             </div>
         </div>
     </div>

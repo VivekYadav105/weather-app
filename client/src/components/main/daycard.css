@@ -23,16 +23,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100px;
-    height: 100px;
+    width: 75px;
+    flex-direction: column;
+    position: relative;
+    height: 75px;
     transform: translateX(-20px);
 }
+
+.day-icon span{
+    position: absolute;
+    bottom: 0;
+}
+
 .weather-status{
     display: flex;
     flex-direction: column;     
 }
-.icon img{
-    width: 100%;
+.day-icon img{
+    margin-bottom: 24px;
+    width: 100px;
 }
 
 .card-middle{
@@ -51,6 +60,7 @@
     padding: 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     border-radius: 0 0rem 1rem 1rem;
 }
 .detail{
