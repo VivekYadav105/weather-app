@@ -34,7 +34,7 @@ function NavBottom() {
           id="nav-bottom-circle"
           style={{ transform: `translateX(${active * 50}px) translateY(-50%)` }}
         ></div>
-        <li className="nav-item" onClick={()=>{setActive(0)}}>
+        <li className="nav-item">
           <Link to="/">
             <i
               className="fa-solid fa-house"
@@ -49,28 +49,26 @@ function NavBottom() {
             </ReactTooltip>
           </Link>
         </li>
-        <li
-          className="nav-item" 
-          onClick={() => {
-            setActive(1);
-          }}>
+        <li className="nav-item">
           <Link to="/map" >
-            <i className="fa-solid fa-map-location-dot" ></i>
+            <i className="fa-solid fa-map-location-dot" onClick={() => {
+                setActive(1);
+              }}></i>
           </Link>
         </li>
         <li 
-          className="nav-item" onClick={()=>{setActive(2)}}>
+          className="nav-item">
           <Link to="/day">
-            <i className="fa-solid fa-clock"></i>
+            <i className="fa-solid fa-clock" onClick={() => {
+                setActive(2);
+              }}></i>
           </Link>
         </li>
-        <li
-          className="nav-item"
-          onClick={() => {
-            setActive(3);
-          }}>
-          <Link to="/savedPlaces">
-            <i className="fa-solid fa-bookmark" ></i>
+        <li className="nav-item">
+          <Link to="/fav">
+            <i className="fa-solid fa-bookmark" style={{paddingLeft:'4.5px'}} onClick={() => {
+                setActive(3);
+              }}></i>
           </Link>
         </li>
       </ul>

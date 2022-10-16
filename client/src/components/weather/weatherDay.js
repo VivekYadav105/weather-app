@@ -46,10 +46,10 @@ function WeatherHourly(props){
                 temp,
                 pressure
               } = element;
-              const riseTemp = new Date(sunrise);
-              const rise = riseTemp.toDateString()
-              const setTemp = new Date(sunset);
-              const set = setTemp.toDateString()
+              const riseTemp = new Date(sunrise*1000);
+              const rise = `${riseTemp.getHours()>12?riseTemp.getHours()-12:riseTemp.getHours()}:${riseTemp.getMinutes()>=10?riseTemp.getMinutes():'0'+riseTemp.getMinutes()} ${riseTemp.getHours()>11?'PM':'AM'}`;
+              const setTemp = new Date(sunset*1000);
+              const set = `${setTemp.getHours()>12?setTemp.getHours()-12:setTemp.getHours()}:${setTemp.getMinutes()>=10?setTemp.getMinutes():'0'+setTemp.getMinutes()} ${setTemp.getHours()>11?'PM':'AM'}`
               dailyData.push({ dt,rise,set,moonrise,moonset,wind_gust,main,icon,id,temp,humidity,temp,pressure,city});
         }); 
         return dailyData;
@@ -59,6 +59,7 @@ function WeatherHourly(props){
 
     useEffect(()=>{
         setBackground(changeBackground(res?res.main:null,res?res.dt:null))
+        console.log(res)
     },[res])
 
     useEffect(()=>{
@@ -69,9 +70,10 @@ function WeatherHourly(props){
         <section className='weather' 
         style={{
             backgroundImage: `url(
-              ${background}
-              )`,
-          }}>  
+                ${background}
+                )`,
+            }}>  
+            {/* {city?city:null} */}
         <SearchBar></SearchBar>  
         <div className='days'>
         {res?res.map((day,index)=>(<DayCard day={day} key={index}></DayCard>))

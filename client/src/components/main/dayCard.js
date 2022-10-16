@@ -40,7 +40,8 @@ function DayCard({day}){
 
     
     return(
-     <>   <div className="card-wrapper">
+     <>   
+     <div className="card-wrapper">
         <div className="card " style={{backgroundImage:`url(${changeBackgroundColor()})`}} >
             <div className="card-top">
                 <div className="day-icon">
@@ -84,12 +85,20 @@ function DayCard({day}){
             </div>
             <div className="card-bottom">
                 <div className="detail-mini"> 
-                <img className="icon" alt="" src={sunriseIcon} color="D7B51B" />rise:
-                <span className="" id="rise">{day.rise}</span></div>
+                <span style={{display:'block',padding:`2.5px`}}>
+                <img className="icon" alt="" src={sunriseIcon} color="D7B51B" />rise
+                </span>
+                <span style={{fontSize:`14px`}}>
+                {day.rise}
+                </span>
+                </div>
                 <div className="detail-mini"> 
-                <img className="icon" alt="" src={sunsetIcon} color="D7B51B" />set:
-                <span className="" id="set">{day.set}</span></div>
-                <div className="detail-mini"></div>
+                <span style={{display:'block',padding:`2.5px`}}>
+                <img className="icon" alt="" src={sunsetIcon} color="D7B51B" />set</span>
+                <span style={{fontSize:`14px`}}>
+                {day.set}
+                </span>
+                </div>
             </div>
         </div>
     </div>

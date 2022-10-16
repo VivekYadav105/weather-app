@@ -1,4 +1,5 @@
-const https = require('https')
+const jwt = require('jsonwebtoken')
+const {userModel} = require('../models/user')
 
 const lat = 0
 const lon = 0
@@ -22,9 +23,57 @@ const getWeatherLive = (req,res,next)=>{
     })
 }
 
-const saveLocation = (req,res,next)=>{
-    
+const addLocation = async (req,res,next)=>{
+    try{
+        const {location,userToken} = await req.body;
+        const username = jwt.decode(userToken)
+        const user = await userModel.findOne({username})
+        if(!user){res.json({success:"false",status:404,data:"user not found"});return}
+        const existing = user.savedLocations.filter((i)=>{
+            return i.name === location
+        })
+        if(existing){
+            res.json({success:false,status:400,data:"Given Location exists"})
+        }
+        res.json({success:true,status:200,data:"location added successfully"})
+    }   
+    catch(err){
+        res.json({success:false,status:500,data:"internal server error"})
+    }
+}
+
+const getSavedLocations = async (req,res,next)=>{
+    try{
+        const {userToken} = await req.body;
+        if(!userToken) {res.json({success:false,status:400,data:"please login to continue"});return}
+        const {username} = jwt.decode(userToken.user);
+        console.log(username)
+        const user = await userModel.findOne({username})
+        if(!user){res.json({success:false,status:404,data:"user not found"});return}
+        console.log(user)
+        const savedLocations = user.savedLocations;
+        console.log(savedLocations)
+        res.json({success:true,status:200,data:{savedLocations}})
+    }
+    catch(err){
+        res.json({success:false,status:500,data:"internal server error",message:err.message})
+    }
+}
+
+const removeLocation = async (req,res,next)=>{
+    try{
+        const {userToken,location} = await req.body;
+        const username = jwt.decode(userToken);
+        const user = await userModel.findOne({username})
+        if(!user){res.json({success:false,status:404,data:"user not found"});return}
+        const savedLocations = user.savedLocations.filter((i)=>{return i.name!=location})
+        const res = await userModel.findOneAndupdate({username:username},{savedLocations})
+    }
+    catch(err){
+        res.json({success:false,status:500,data:"internal server error"})
+    }
 }
 
 
-module.exports = {getweatherWeekly,getWeatherLive}
+
+module.exports = {getweatherWeekly,getWeatherLive,getSavedLocations,addLocation,removeLocation}
