@@ -3,6 +3,7 @@ import sunriseIcon from "../../icons/sun-rise.svg";
 import sunsetIcon from "../../icons/sun-set.svg";
 import SearchBar from './searchBar'
 import "./weather.css";
+import {toast} from 'react-toastify'
 import { RingLoader } from "react-spinners";
 import { LocationContext } from "../../context";
 import { useFetchData,changeBackground } from "../../Hooks";
@@ -10,6 +11,7 @@ import { useFetchData,changeBackground } from "../../Hooks";
 export default function Weather() {
   const APIkey = '3c69e44246ed2a47cfbeb82438bad733'
   const {city,units,setCity} = useContext(LocationContext);
+  const [error,setError] = useState({status:false})
   const [background,setBackground] = useState("images/clear-day.jpg")
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${APIkey}&units=${units}`
   // const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
@@ -18,23 +20,27 @@ export default function Weather() {
   const getUserLocation = () => {
     console.log('entered in user location')
     navigator.geolocation.getCurrentPosition(async (data) => {
-      console.log(data.coords)
-      const { latitude, longitude } = data.coords;
-      const APIkey = "3c69e44246ed2a47cfbeb82438bad733";
-      const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
-      const res = await fetch(url);
-      const resJson = await res.json();
-      const { name } = await resJson[0];
-      if(name){
-        // toast.info("fetching live location", {
-        //   position: "top-center",
-        //   autoClose: 2000,
-        //   hideProgressBar: true,
-        //   closeOnClick: true,
-        // });
+      try{
+        const { latitude, longitude } = data.coords;
+        const APIkey = "3c69e44246ed2a47cfbeb82438bad733";
+        const url = `http://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
+        const res = await fetch(url);
+        const resJson = await res.json();
+        const { name } = await resJson[0];
+        if(name){
+          toast.info("fetching live location", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: true,
+            closeOnClick: true,
+          });
+        }
+        console.log(name)
+        setCity(name);
       }
-      console.log(name)
-      setCity(name);
+      catch(err){
+        setError((i)=>{return {...i,status:err.status,message:"something went wrong"}})
+      }
     });
   };
 
@@ -101,9 +107,9 @@ export default function Weather() {
         weather: [{ main, icon, id }],
         main: { temp, humidity },
       } = data;
-      const riseTemp = new Date(sunrise);
+      const riseTemp = new Date(sunrise*1000);
       const rise = riseTemp.createTime()
-      const setTemp = new Date(sunset);
+      const setTemp = new Date(sunset*1000);
       const set = setTemp.createTime();
       console.log(rise, set);
       return { dt, rise, set, name, main, id, icon, temp, humidity, wind };
@@ -131,18 +137,8 @@ export default function Weather() {
     if(!city) getUserLocation();
   },[]);
 
-
-  return (
-    <div
-      className="weather-app-wrapper"
-      style={{
-        backgroundImage: `url(
-          ${background}
-          )`,
-      }}
-    >
-      <SearchBar></SearchBar>
-      {res? (<div className="weather-app">
+  const Weather = ()=>  (
+    <div className="weather-app">
           <div className="weather-app-info">
             <h1 className="city">
               <i className="fa-solid fa-location-dot"></i>&nbsp;&nbsp;
@@ -219,13 +215,37 @@ export default function Weather() {
               </div>
             </div>
           </div>
-        </div>)
-        :
-      (<div className="loader">
+      </div>
+  )
+
+  const Loader = ()=> (
+      <div className="loader">
         <RingLoader></RingLoader>
         <p className="loading">loading...</p>
       </div>
-      )}
+  )
+
+  const Error = ()=> (
+    <div className="loader">
+      <p>{error.message}</p>
+    </div>
+  )
+
+
+  return (
+    <div
+      className="weather-app-wrapper"
+      style={{
+        backgroundImage: `url(
+          ${background}
+          )`,
+      }}
+    >
+      <SearchBar></SearchBar>
+      {error.sta?<Error/>:(
+        res? (<Weather/>):(<Loader/>)
+      )
+      }
     </div>
   );
 }

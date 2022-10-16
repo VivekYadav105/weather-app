@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes,Navigate } from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import {LocationContext,UserContext} from './context'
 import Auth from './components/Auth';
+import { Locations,AddLocation } from './components/savedLocations';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
@@ -16,9 +17,11 @@ function App() {
   }
 
   useEffect(()=>{
-    if(city) localStorage.setItem('city',JSON.stringify(city));
-    else localStorage.getItem('city')
-    console.log(city)
+    if(!city) setCity(sessionStorage.getItem('city'))
+  },[])
+
+  useEffect(()=>{
+    if(city) sessionStorage.setItem('city',city);
   },[city])
 
   useEffect(()=>{
@@ -42,9 +45,11 @@ function App() {
         <LocationContext.Provider value={ProviderValue}>
         <Header></Header>
           <Routes>
-            <Route path='/auth' exact element={<Auth/>}/>
             <Route path='/' exact element={<WeatherLive/>}/>
+            <Route path='/auth' exact element={<Auth/>}/>
             <Route path='/day' exact element={user?<WeatherDay/>:<Navigate to="/auth"/>}/>
+            {/* <Route path='/fav' exact element={<Locations/>}/> */}
+            <Route path='/fav' exact element={user?<Locations/>:<Navigate to="/auth"/>}/>
             {/* <Route path='/map' exact element={<MapComponent/>}/> */}
           </Routes>
         <Footer></Footer>

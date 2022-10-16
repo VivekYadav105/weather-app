@@ -48,9 +48,10 @@
     gap: 5px;
 }
 .card-bottom{
-    padding: 1rem;
+    padding: 1rem .5rem;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     border-radius: 0 0rem 1rem 1rem;
 }
 .detail{

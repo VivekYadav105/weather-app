@@ -103,7 +103,11 @@
     height:30px;
     padding:5px;
 }
-
+#sun-status{
+    flex-grow: 1;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
 
 .inactive{
     display: none;

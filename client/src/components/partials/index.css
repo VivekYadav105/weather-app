@@ -87,7 +87,6 @@ nav{
     color: white;
 }
 
-
 @media screen and (max-width:768px) {
     .nav-list-wrapper{
         position: relative;
@@ -104,15 +103,28 @@ nav{
         z-index: 10;
         flex-direction: column;
     }
-    .nav-list a{
-        margin: 0;
+    .nav-item{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .nav-item a{
+        margin: 0 1rem;
         color: white;
         padding: 0;
+    }
+    .nav-item a:hover{
+        color: rgba(29, 27, 27, 0.829);
+    }
+    .nav-item i{
+        color: inherit;
+        transition: 0.1s;
     }
     .logo-text-wrapper h1{
         transform: translateX(0);
     }
-    .nav-item{
-        padding: .5rem 0;
-    }
+}
+
+@media screen and (max-width:475px) {
+    
 }

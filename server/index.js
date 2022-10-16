@@ -8,7 +8,7 @@ const app = express();
 require('dotenv').config()
 
 const {userRouter} = require('./routes/userRoutes')
-// const {weatherRouter} = require('./routes/weatherRoutes')
+const {weatherRouter} = require('./routes/weatherRoutes')
 console.log(userRouter)
 
 app.use(express.json())
@@ -33,7 +33,7 @@ mongoose.connect(`mongodb+srv://vivek:${process.env.MONGO_PASSWORD}@cluster0.mfj
   }
 })
 
-// app.use('/weather',weatherRouter)
+app.use('/weather',weatherRouter)
 app.use('/user',userRouter)
 
 app.listen(PORT, (err) => {

@@ -16,7 +16,7 @@ const Header = () => {
         <div>
         {
         user?
-        <button className='nav-button' onClick={()=>{setUser(false)}}>Logout</button>: 
+        <button className='nav-button' onClick={()=>{setUser(false);sessionStorage.removeItem('user')}}>Logout</button>: 
         <button className='nav-button' onClick={()=>{window.location.href="/auth"}}>Login</button>
       }
         </div>

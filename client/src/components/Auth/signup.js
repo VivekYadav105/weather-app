@@ -6,7 +6,7 @@ import axios from 'axios'
 import { useState } from 'react'
 function Signup(props){
     const {page,setPage} = props
-    const [signUpData,setSignUpData] = useState({username:'',password:''})
+    const [signUpData,setSignUpData] = useState({username:null,password:null})
 
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
@@ -32,21 +32,25 @@ function Signup(props){
     }
 
     const postSignUpData = async ()=>{
-        const response = await axios.post('http://localhost:5000/user/signup',signUpData)
-        console.log(response)
-        if(response.data.status==200||response.data.status==201||response.data.status==202){
+        const {data} = await axios.post('http://localhost:5000/user/signup',signUpData)
+        console.log(data)
+        if(data.status==200||data.status==201||data.status==202){
             toast.success("User created successfully",{position:"top-center",autoClose:4000,hideProgressBar:false,pauseOnFocusLoss:false})
             setTimeout(()=>{
-                <Navigate to="/verify"></Navigate>
+                setPage(0)
+                // <Navigate to="/verify"></Navigate>
             },1000)
         }
-        else{
-            toast.warn(response.data.message,{position:"top-center",autoClose:4000,hideProgressBar:false,pauseOnFocusLoss:false})
+        else if(data.status==400){
+            toast.warn(data.message,{position:"top-center",autoClose:4000,hideProgressBar:false,pauseOnFocusLoss:false})
+            setTimeout(()=>{
+                setPage(0)
+            },[500])
         }
     }
 
     useEffect(()=>{
-        signUpData&&postSignUpData()
+        signUpData.username&&signUpData.password&&postSignUpData()
     },[signUpData])
 
     return(

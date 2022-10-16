@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect,useCallback } from "react";
 // import useBackground from "./backgroundHook";
 
 function useFetchData(url,func,initialState,dependencies){
@@ -6,7 +6,7 @@ function useFetchData(url,func,initialState,dependencies){
 
     if(!url){throw new Error("Hook fetchData requires url to fetch")}
     
-    const fetchData = async ()=>{
+    const fetchData = useCallback(async ()=>{
         try{
             const response = await fetch(url,{mode:'cors'})
             const resJson = await response.json()
@@ -22,7 +22,7 @@ function useFetchData(url,func,initialState,dependencies){
             setRes("")
         }
         return {res,setRes}
-    }
+    })
 
     useEffect(()=>{
         fetchData()

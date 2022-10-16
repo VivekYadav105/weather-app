@@ -7,7 +7,8 @@ async function loginUser(req,res,next){
         if(req.body){
             console.log(req.body)
         const {username,password} = await req.body
-        const user = await userModel.findOne({username})
+        if(username) {
+            const user = await userModel.findOne({username})
         if(user){
             if(await bcrypt.compare(password,user.password)){
                 const userToken = jwt.sign({username,password},'user123')
@@ -18,11 +19,11 @@ async function loginUser(req,res,next){
         }
         else{
             res.json({message:`user not found`,status:404,user:false})
-        }
+        }}
     }
 }
 catch(err){
-    console.log(err)
+    console.log(err.message)
     res.json({message:err.message,status:err.status,user:false})
     }
 }

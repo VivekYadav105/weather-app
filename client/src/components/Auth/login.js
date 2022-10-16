@@ -9,20 +9,17 @@ import { UserContext } from '../../context'
 function Login(props){
     const {page,setPage} = props
 
-    const [loginData,setLoginData] = useState({username:'',password:''})
+    const [loginData,setLoginData] = useState({username:null,password:null})
     const {user,setUser} = React.useContext(UserContext)
 
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
 
-    useEffect(()=>{
-        console.log(emailRef.current.value)
-    },[emailRef])
-
     const handleSubmit = (e)=>{
         e.preventDefault()
         const email = emailRef.current.value;
         const password = passwordRef.current.value;
+        console.log("inside handle submit")
         console.log(email,password)
         if(email&&password){
             setLoginData((i)=>({...i,username:email,password:password}))
@@ -31,6 +28,7 @@ function Login(props){
 
     const postLoginData = async ()=>{
         try{
+            console.log("inside post request")
             const response = await axios.post('http://localhost:5000/user/login',loginData)
             console.log(response.status)
             const {data} = response;
@@ -77,8 +75,24 @@ function Login(props){
     }
 
     useEffect(()=>{
-        loginData.username&&postLoginData()
+        console.log(loginData)
+        if(loginData.username&&loginData.password)postLoginData()
     },[loginData])
+
+    // useEffect(()=>{
+    //     if(user){
+    //         console.log(user)
+    //         window.location.href='/day'
+    //     }
+    // },[])
+
+    useEffect(()=>{
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+        if(email&&password){
+            setLoginData((i)=>({...i,username:email,password:password}))
+        }
+    },[emailRef,passwordRef])
 
     return(
         <div className="login-wrapper" style={{transform:`translateX(-${page*350}px)`}}>  

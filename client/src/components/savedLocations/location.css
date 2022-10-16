@@ -1,0 +1,16 @@
+.location-wrapper{
+    background-size: cover;
+    background-repeat: no-repeat;
+    
+}
+
+.locations{
+    display: flex;
+    align-items: flex-start;
+    gap: 2.5rem;
+    justify-content:flex-start;
+    padding: 2rem;
+    flex-wrap: wrap;
+    min-height: calc(100vh - 160px);
+}
+
