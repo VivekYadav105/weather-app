@@ -58,9 +58,6 @@ export default function Locations(){
                 setData((i)=>([...i,{date:date,status:main,temperature:temp,place:name,time:time}]))
                 
             })
-            // var {dt,main:{temp},name,weather:[{main}]} = data 
-            // console.log(dt,temp,main,name)
-            // res.push({date:dt,status:main,temp:temp,place:name});
         })
         console.log("res",res)
         setData(res);
