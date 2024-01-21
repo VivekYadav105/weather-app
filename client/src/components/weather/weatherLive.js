@@ -149,7 +149,7 @@ export default function Weather() {
               {res ? Date(res.dt) : "date"}
             </h3>
             <div className="weather-app-info-wrapper">
-              <div className="weather-app-info-status">
+              <div className="weather-app-info-status" style={{flexBasis:"50%",justifyContent:"center"}}>
                 <h3 className="temp">
                   {res ? (
                     <span>
@@ -174,7 +174,7 @@ export default function Weather() {
                   {res && setIcon(res.icon, res.dt)}
                 </span>
               </div>
-              <div className="weather-app-info-status" id="climate-status">
+              <div className="weather-app-info-status" style={{flexBasis:"50%"}} id="climate-status">
                 <h4 className="wind">
                   <i
                     className="fa-solid fa-wind"
