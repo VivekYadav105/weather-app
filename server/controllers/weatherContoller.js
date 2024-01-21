@@ -26,15 +26,19 @@ const getWeatherLive = (req,res,next)=>{
 const addLocation = async (req,res,next)=>{
     try{
         const {location,userToken} = await req.body;
-        const username = jwt.decode(userToken)
+        console.log(location,userToken)
+        const {username} = jwt.decode(userToken)
         const user = await userModel.findOne({username})
         if(!user){res.json({success:"false",status:404,data:"user not found"});return}
-        const existing = user.savedLocations.filter((i)=>{
-            return i.name === location
-        })
+        const existing = user.savedLocations.find(ele=>ele===location);
         if(existing){
             res.json({success:false,status:400,data:"Given Location exists"})
         }
+        await userModel.findOneAndUpdate(
+            { username: username }, 
+            { $push: { savedLocations: location } },
+            { new: true } 
+        );
         res.json({success:true,status:200,data:"location added successfully"})
     }   
     catch(err){
@@ -51,9 +55,8 @@ const getSavedLocations = async (req,res,next)=>{
         const user = await userModel.findOne({username})
         if(!user){res.json({success:false,status:404,data:"user not found"});return}
         console.log(user)
-        const savedLocations = user.savedLocations;
-        console.log(savedLocations)
-        res.json({success:true,status:200,data:{savedLocations}})
+        
+        res.json({success:true,status:200,data:{savedLocations:user.savedLocations}})
     }
     catch(err){
         res.json({success:false,status:500,data:"internal server error",message:err.message})
@@ -63,13 +66,21 @@ const getSavedLocations = async (req,res,next)=>{
 const removeLocation = async (req,res,next)=>{
     try{
         const {userToken,location} = await req.body;
-        const username = jwt.decode(userToken);
+        const {username} = jwt.decode(userToken);
         const user = await userModel.findOne({username})
-        if(!user){res.json({success:false,status:404,data:"user not found"});return}
-        const savedLocations = user.savedLocations.filter((i)=>{return i.name!=location})
-        const res = await userModel.findOneAndupdate({username:username},{savedLocations})
+        console.log(user)
+        if(!user){return res.json({success:false,status:404,data:"user not found"});}
+        const savedLocations = user.savedLocations.filter(ele=>ele.toLowerCase()!==location.toLowerCase())
+        console.log(location,savedLocations)
+        await userModel.findOneAndUpdate(
+            { username: username }, 
+            { $set: { savedLocations: savedLocations } },
+            { new: true } 
+        );
+        return res.json({success:true,status:200,data:"location remoed successfully"})
     }
     catch(err){
+        console.log(err)
         res.json({success:false,status:500,data:"internal server error"})
     }
 }

@@ -26,11 +26,11 @@ app.get('/',(req, res, next) => {
 
 app.use(morgan('tiny'))
 
-mongoose.connect(`mongodb+srv://vivek:${process.env.MONGO_PASSWORD}@cluster0.mfj7a0n.mongodb.net`).then((success,err)=>{
+mongoose.connect(`mongodb+srv://vivek:${process.env.MONGO_PASSWORD}@cluster0.ydumq.mongodb.net/weather`).then((success,err)=>{
   if(success){console.log('success\ndatabase name:',connection.db.databaseName)}
-  else{
+  else 
     console.log('err:',err.message)
-  }
+  
 })
 
 app.use('/weather',weatherRouter)
