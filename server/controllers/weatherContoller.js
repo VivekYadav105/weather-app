@@ -49,6 +49,7 @@ const addLocation = async (req,res,next)=>{
 const getSavedLocations = async (req,res,next)=>{
     try{
         const {userToken} = await req.body;
+        console.log(userToken)
         if(!userToken) {res.json({success:false,status:400,data:"please login to continue"});return}
         const {username} = jwt.decode(userToken.user);
         console.log(username)

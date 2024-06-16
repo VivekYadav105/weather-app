@@ -9,7 +9,6 @@ require('dotenv').config()
 
 const {userRouter} = require('./routes/userRoutes')
 const {weatherRouter} = require('./routes/weatherRoutes')
-console.log(userRouter)
 
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
