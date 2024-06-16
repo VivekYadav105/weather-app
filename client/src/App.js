@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [city, setCity] = useState(null);
   const [units, setUnits] = useState("standard");
-  const [user,setUser] = useState(()=>sessionStorage.getItem('userToken')||{})
+  const [user,setUser] = useState(()=>sessionStorage.getItem('userToken')||null)
   const ProviderValue = {
     city,units,setCity,setUnits
   }
