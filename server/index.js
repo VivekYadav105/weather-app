@@ -30,6 +30,8 @@ mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PA
   else 
     console.log('err:',err.message)
   
+}).catch(err=>{
+  console.log("failed to connect",err.message)
 })
 
 app.use('/weather',weatherRouter)
