@@ -25,13 +25,32 @@ export default function Locations(){
     async function handleSubmit(){
         const location = cityRef.current.value;
         if(location){
-            const {lat,lon} = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${APIkey}`
-            const response = await axios.post("http://localhost:5000/weather/addLocations")
+            const geoApi = `https://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=1&appid=${APIkey}`
+            const res = await axios.get(geoApi)
+            if(res.status!==200){
+                return toast.error("Not a correct location only cites are valid", {
+                        position: "top-center",
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                      });
+            }
+            const token = sessionStorage.getItem("userToken")
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND}/weather/addLocation`,{location:location,userToken:sessionStorage.getItem('userToken')})
+            if(response.status===200){
+                toast.success("Location added to favourites", {
+                    position: "top-center",
+                    autoClose: 2000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                  });
+            } 
+            getLocations()
         } 
     }
 
     async function getLocations(){
-        const {data:resJson} = await axios.post("http://localhost:5000/weather/getSavedLocations",{userToken:user});
+        const {data:resJson} = await axios.post(`${process.env.REACT_APP_BACKEND}/weather/getSavedLocations`,{userToken:user});
         console.log(resJson)
         const {success,data} = resJson
         if(success==true){
@@ -43,6 +62,19 @@ export default function Locations(){
             setError((i)=>({message:data.data,status:data.status}))
         }
 
+    }
+
+    async function removeLocation(name){
+        const userToken = sessionStorage.getItem("userToken")
+        const res = await axios.post(`${process.env.REACT_APP_BACKEND}/weather/deleteLocation`,{userToken,location:name})
+        console.log(res)
+        if(res.status===200){
+            toast.success("Location removed from favourites",{position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,})
+            window.location.reload()
+        }
     }
     
     function getData(){
@@ -94,7 +126,7 @@ export default function Locations(){
             style={{backgroundColor:"",padding:'10px',borderRadius:'0 1rem 1rem 0'}}
             onClick={handleSubmit}
           ></i>
-          <img
+          {/* <img
             src={farienheiticon}
             alt="search"
             className={`temp-icon ${units === "metric" ? `inactive` : ``}`}
@@ -102,8 +134,8 @@ export default function Locations(){
             onClick={() => {
               setUnits("metric");
             }}
-          />
-          <img
+          /> */}
+          {/* <img
             src={celsiusIcon}
             alt="search"
             className={`temp-icon ${units !== "metric" ? `inactive` : ``}`}
@@ -111,7 +143,7 @@ export default function Locations(){
             onClick={() => {
               setUnits("standard");
             }}
-          />
+          /> */}
         </div>
         </form>    
         <div className='locations'>
@@ -120,7 +152,7 @@ export default function Locations(){
                 data?
                 (
                     !data.length?<div className='login' style={{margin:'auto',padding:"1rem"}}>No saved Locations!!!please add them here</div>:
-                    data.map((i)=>(<FavouriteCard {...i}></FavouriteCard>))
+                    data.map((i)=>(<FavouriteCard {...i} removeLocation={removeLocation}></FavouriteCard>))
                 )
                 :
                 (

@@ -5,13 +5,13 @@ import { BrowserRouter, Route, Routes,Navigate } from 'react-router-dom';
 import React,{useEffect, useState} from 'react';
 import {LocationContext,UserContext} from './context'
 import Auth from './components/Auth';
-import { Locations,AddLocation } from './components/savedLocations';
+import { Locations } from './components/savedLocations';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const [city, setCity] = useState(null);
   const [units, setUnits] = useState("standard");
-  const [user,setUser] = useState(false)
+  const [user,setUser] = useState(()=>sessionStorage.getItem('userToken')||{})
   const ProviderValue = {
     city,units,setCity,setUnits
   }
@@ -23,12 +23,6 @@ function App() {
   useEffect(()=>{
     if(city) sessionStorage.setItem('city',city);
   },[city])
-
-  useEffect(()=>{
-    if(!user){
-      setUser(sessionStorage.getItem('userToken'))
-    }
-  },[])
 
   useEffect(()=>{
     if(user){

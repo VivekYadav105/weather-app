@@ -29,7 +29,7 @@ function Login(props){
     const postLoginData = async ()=>{
         try{
             console.log("inside post request")
-            const response = await axios.post('http://localhost:5000/user/login',loginData)
+            const response = await axios.post(`${process.env.REACT_APP_BACKEND}/user/login`,loginData)
             console.log(response.status)
             const {data} = response;
             if(data.status==200||data.status==201||data.status==202){
