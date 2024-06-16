@@ -25,7 +25,7 @@ app.get('/',(req, res, next) => {
 
 app.use(morgan('tiny'))
 
-mongoose.connect(`mongodb+srv://{process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ydumq.mongodb.net/weather`).then((success,err)=>{
+mongoose.connect(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}@cluster0.ydumq.mongodb.net/weather`).then((success,err)=>{
   if(success){console.log('success\ndatabase name:',connection.db.databaseName)}
   else 
     console.log('err:',err.message)

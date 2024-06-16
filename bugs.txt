@@ -1,4 +1,0 @@
-login page --- autofill bug
-context --- local storage and logout
-footer --- mobile css bug
-login page --- empty submit 

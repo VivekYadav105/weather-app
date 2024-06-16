@@ -22,7 +22,7 @@ export default function Weather() {
     navigator.geolocation.getCurrentPosition(async (data) => {
       try{
         const { latitude, longitude } = data.coords;
-        const APIkey = "3c69e44246ed2a47cfbeb82438bad733";
+        const APIkey = process.env.REACT_APP_OPEN_WEATHER;
         const url = `https://api.openweathermap.org/geo/1.0/reverse?appid=${APIkey}&lat=${latitude}&lon=${longitude}`;
         const res = await fetch(url);
         const resJson = await res.json();
